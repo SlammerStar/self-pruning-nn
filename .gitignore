@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+data/
+outputs/checkpoints/*.pt
+logs/
+.DS_Store

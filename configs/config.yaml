@@ -1,0 +1,34 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# configs/config.yaml  —  Self-Pruning Neural Network
+# All hyperparameters are controlled here; main.py reads this file.
+# ─────────────────────────────────────────────────────────────────────────────
+
+model:
+  input_dim:    3072          # 32 × 32 × 3 flattened
+  hidden_dims:  [1024, 512, 256]
+  num_classes:  10
+  dropout_rate: 0.3
+
+training:
+  epochs:        30
+  batch_size:    128
+  learning_rate: 0.001
+  weight_decay:  0.0001
+  num_workers:   0       # set to 2+ on Linux/cloud; keep 0 on macOS to avoid spawn errors
+  log_every:     5
+
+# Lambda sweep — three values covering low / medium / high sparsity pressure
+lambdas:
+  - 0.001   # LOW   — high accuracy, mild pruning (~10-20% sparsity)
+  - 0.01    # MED   — balanced trade-off  (~40-60% sparsity)
+  - 0.1     # HIGH  — aggressive pruning  (~70-90% sparsity)
+
+paths:
+  data_dir:       "./data"
+  checkpoint_dir: "./outputs/checkpoints"
+  plots_dir:      "./plots"
+  logs_dir:       "./logs"
+  results_csv:    "./outputs/results_summary.csv"
+
+evaluation:
+  gate_threshold: 0.01    # gates below this are counted as "pruned"
